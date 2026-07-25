@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Marketplace semver range resolution now honours the `tagPattern` declared
+  by the marketplace producer. Previously, `version: "~2.1.0"` marketplace
+  dependencies always resolved tags using the hardcoded `{name}--v{version}`
+  pattern, causing silent install failures when a marketplace used a different
+  convention. The effective tag pattern is now propagated from `apm pack`
+  through `marketplace.json` and read by `apm install` at resolution time.
+  (#2319)
+
 ## [0.26.0] - 2026-07-18
 
 ### Added

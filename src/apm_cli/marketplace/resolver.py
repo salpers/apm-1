@@ -973,7 +973,7 @@ def resolve_marketplace_plugin(
         resolved_override = version_spec
         if is_version_constraint(version_spec):
             from .errors import NoMatchingVersionError
-            from .version_resolver import resolve_version_constraint
+            from .version_resolver import DEFAULT_TAG_PATTERN, resolve_version_constraint
 
             owner_repo = f"{source.owner}/{source.repo}"
             token, auth_scheme = _extract_auth(auth_resolver, source.host, org=source.owner)
@@ -982,6 +982,7 @@ def resolve_marketplace_plugin(
                     plugin_name,
                     owner_repo,
                     version_spec,
+                    tag_pattern=plugin.tag_pattern or DEFAULT_TAG_PATTERN,
                     host=source.host,
                     token=token,
                     auth_scheme=auth_scheme,
