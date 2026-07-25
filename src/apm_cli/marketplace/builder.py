@@ -116,7 +116,7 @@ class ResolvedPackage:
     is_prerelease: bool  # True if the resolved ref was a prerelease semver
     host: str | None = None  # non-default git host parsed from apm.yml source
     source_url: str | None = None  # canonical URL for sourceBase-composed entries
-    effective_tag_pattern: str = ""  # tag pattern used to resolve this package
+    effective_tag_pattern: str = ""  # tag pattern for consumer-side semver resolution; propagated to marketplace.json so consumers can resolve version ranges without re-reading apm.yml. Not used for explicit ref entries.
 
 
 @dataclass(frozen=True)

@@ -212,14 +212,16 @@ package's directory, not the project root.
 |-------|----------|-------------|
 | `name` | REQUIRED | Plugin identifier within the marketplace (`^[a-zA-Z0-9._-]+$`). |
 | `marketplace` | REQUIRED | Registered marketplace name (`^[a-zA-Z0-9._-]+$`). |
-| `version` | OPTIONAL | Semver range or exact version (e.g. `~2.1.0`, `^2.0`, `>=1.4`, `2.1.0`). Resolved against git tags whose pattern is declared by the marketplace (defaults to `{name}--v{version}`). |
+| `version` | OPTIONAL | Semver range or exact version (e.g. `~2.1.0`, `^2.0`, `>=1.4`, `2.1.0`). Resolved against git tags using the pattern declared by the marketplace's `tag_pattern` field (emitted by `apm pack` from `build.tagPattern`; defaults to `v{version}`). When `tag_pattern` is absent from `marketplace.json` (older files), the consumer falls back to `{name}--v{version}`. |
 
 During resolution, marketplace entries are looked up in the marketplace's
 `marketplace.json` and replaced with concrete git coordinates. When `version`
 is a semver range or bare version number, the resolver lists git tags
 using the pattern declared in the marketplace's `tag_pattern` field (populated
-by `apm pack` from the producer's `build.tagPattern`). APM filters by the
-constraint and picks the highest matching tag. Raw git refs (e.g. `v2.0.0`,
+by `apm pack` from the producer's `build.tagPattern`; default `v{version}`).
+APM filters by the constraint and picks the highest matching tag. Old
+`marketplace.json` files that omit `tag_pattern` fall back to the legacy
+consumer default `{name}--v{version}`. Raw git refs (e.g. `v2.0.0`,
 `main`) bypass tag resolution and override the source ref directly. The
 lockfile records the resolved ref, not the marketplace placeholder. Unknown
 keys in a marketplace entry are rejected.
